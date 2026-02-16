@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: characters
+    ports:
+      - "5432:5432"
+
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    ports:
+      - "3001:3001"
+    environment:
+      - JWT_SECRET=supersecret
+    depends_on:
+      - postgres
+
+  backend-service:
+    build: ./backend-service
+    container_name: backend-service
+    ports:
+      - "3002:3002"
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - DB_NAME=characters
+    depends_on:
+      - postgres
+  frontend-service:
+    build: ./frontend-service
+    container_name: frontend-service
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-service
+      - backend-service
+
