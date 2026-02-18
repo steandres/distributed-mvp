@@ -2,7 +2,6 @@ services:
 
   postgres:
     image: postgres:15
-    container_name: postgres-db
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
@@ -12,7 +11,6 @@ services:
 
   auth-service:
     image: estephanc/auth-service:1.0
-    container_name: auth-service
     ports:
       - "3001:3001"
     environment:
@@ -23,7 +21,6 @@ services:
 
   backend-service:
     image: estephanc/backend-service:1.0
-    container_name: backend-service
     ports:
       - "3002:3002"
     environment:
@@ -37,16 +34,14 @@ services:
 
   frontend-service:
     image: estephanc/frontend-service:1.0
-    container_name: frontend-service
     ports:
-      - "3000:3000"
+      - "80:3000"
     depends_on:
       - auth-service
       - backend-service
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
-    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -55,7 +50,6 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
-    container_name: kafka
     depends_on:
       - zookeeper
     ports:
