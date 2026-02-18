@@ -11,7 +11,7 @@ services:
       - "5432:5432"
 
   auth-service:
-    build: ./auth-service
+    image: estephanc/auth-service:1.0
     container_name: auth-service
     ports:
       - "3001:3001"
@@ -22,7 +22,7 @@ services:
       - kafka
 
   backend-service:
-    build: ./backend-service
+    image: estephanc/backend-service:1.0
     container_name: backend-service
     ports:
       - "3002:3002"
@@ -36,7 +36,7 @@ services:
       - kafka
 
   frontend-service:
-    build: ./frontend-service
+    image: estephanc/frontend-service:1.0
     container_name: frontend-service
     ports:
       - "3000:3000"
